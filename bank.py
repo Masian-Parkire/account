@@ -27,12 +27,23 @@ class Account:
             print(transaction["narration"], "-", transaction["amount"])
 
     def borrow_loan(self, amount):
-        if self.loan_balance == 0 and amount > 100 and len(self.deposits) >= 10 and amount <= sum([transaction["amount"] for transaction in self.deposits])/3:
-            self.loan_balance += amount
-            self.balance += amount
-            return True
-        else:
-            return False
+      if self.loan_balance > 0:
+        
+        return "There is an outstanding loan balance on the account"
+      elif amount <= 100:
+        # 
+        return "Loan amount requested is not more than 100"
+      elif len(self.deposits) < 10:
+        # 
+        return "Customer has not made at least 10 deposits"
+      elif amount > sum([transaction["amount"] for transaction in self.deposits])/3:
+        # 
+        return "Amount requested is greater than 1/3 of their total sum of all deposits"
+      else:
+         "All conditions are satisfied, increase the loan balance and return True"
+         self.loan_balance += amount
+         self.balance += amount
+         return True
 
     def repay_loan(self, amount):
         if amount >= self.loan_balance:
